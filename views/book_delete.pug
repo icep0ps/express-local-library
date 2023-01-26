@@ -1,0 +1,24 @@
+extends layout
+
+block content 
+    h1 Delete Book: #{book.title}
+
+    if bookcopies.length
+        p #[strong Delete the following book instances before attempting to delete this book.]
+
+        h3 Book instances
+        
+        ul
+            for booksCopy in bookcopies
+                li
+                    a(href=booksCopy.url) #{booksCopy.book.title}:#{booksCopy.book.imprint} - 
+                    |#{booksCopy.status}
+    else
+                 
+        p Do you really want to delete this Book?
+
+            form(method='POST' action='')
+                div.form-group
+                input#authorid.form-control(type='hidden',name='authorid', required='true', value=book._id )
+
+                button.btn.btn-primary(type='submit') Delete
