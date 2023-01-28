@@ -3,23 +3,25 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config();
 const mongoose = require('mongoose');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var catalogRouter = require('./routes/catalog');
+const compression = require('compression');
 
 var app = express();
-
 // using mongoose to create the default connection to the mongodb database and reporting any errors to the console.
 mongoose.set('strictQuery', false);
+console.log(process.env.DATABASE);
 
 main().catch((error) => console.log(error));
 async function main() {
-  await mongoose.connect(
-    'mongodb+srv://admin:Insertedd@cluster0.wfafmmp.mongodb.net/local_library?retryWrites=true&w=majority'
-  );
+  await mongoose.connect(process.env.MONGODB_URI);
 }
+
+app.use(compression()); // Compress all routes
+app.use(helmet());
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var catalogRouter = require('./routes/catalog');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
