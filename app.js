@@ -6,11 +6,10 @@ var logger = require('morgan');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const compression = require('compression');
-
+const helmet = require('helmet');
 var app = express();
 // using mongoose to create the default connection to the mongodb database and reporting any errors to the console.
 mongoose.set('strictQuery', false);
-console.log(process.env.DATABASE);
 
 main().catch((error) => console.log(error));
 async function main() {
